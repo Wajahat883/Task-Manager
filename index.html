@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-Manager</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task-Manager</h1>
+        <form id="taskForm">
+            <input id="title" placeholder="Enter title" />
+            <textarea id="description" placeholder="Enter description"></textarea>
+            <input id="tags" placeholder="Enter tags, separated by commas" />
+            <button type="submit">Add Task</button>
+          </form>
+          
+          <select id="tagFilter">
+            <option value="">All</option>
+          </select>
+          
+          <ul id="taskList"></ul>
+          
+    </div>
+    <script src="./index.js"></script>
+</body>
+</html>
