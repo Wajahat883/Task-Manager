@@ -10,19 +10,32 @@
     <div class="container">
         <h1>Task-Manager</h1>
         <form id="taskForm">
-            <input id="title" placeholder="Enter title" />
-            <textarea id="description" placeholder="Enter description"></textarea>
-            <input id="tags" placeholder="Enter tags, separated by commas" />
-            <button type="submit">Add Task</button>
-          </form>
-          
-          <select id="tagFilter">
-            <option value="">All</option>
+          <input id="title" placeholder="Enter title" />
+          <textarea id="description" placeholder="Enter description"></textarea>
+          <input id="tags" placeholder="Enter tags, separated by commas" />
+          <input type="date" id="deadline" />
+          <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
           </select>
-          
-          <ul id="taskList"></ul>
+          <button type="submit">Add Task</button>
+        </form>
+        
+        <select id="tagFilter">
+          <option value="">All Tags</option>
+        </select>
+        
+        <select id="statusFilter">
+          <option value="">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+        
+        <ul id="taskList"></ul>
+        
           
     </div>
-    <script src="./index.js"></script>
+    <script src="./Task-managar.js"></script>
 </body>
 </html>
