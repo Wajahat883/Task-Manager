@@ -34,6 +34,13 @@ button{
     transition: background 0.3 ease;
   
 }
+.summary{
+    margin:20px 0;
+    padding: 10px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    font-weight: bold;
+}
 .filter-section{
     margin-top: 20px;
     display: flex;
