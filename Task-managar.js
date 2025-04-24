@@ -156,3 +156,6 @@ statusFilter.addEventListener("change", renderTask);
 
 console.log(tasks)
 console.log(localStorage.getItem("tasks"))
+
+
+
