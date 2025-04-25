@@ -30,14 +30,25 @@
         <select id="tagFilter">
           <option value="">All Tags</option>
         </select>
-        
         <select id="statusFilter">
-          <option value="">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
+
         </select>
+        <div class="cards-container drag-columns">
+          <div class="dropcards" id="allcards">
+            <h3>All Status</h3>
+            <ul id="alltasks" class="tasklist-cards droppable-cards"></ul>
+          </div>
+          <div class="dropcards" id="pending">
+            <h3>Pending</h3>
+            <ul id="pendingtasks" class="tasklist-cards droppable-cards"></ul>
+          </div>
+          <div class="dropcards" id="completed">
+            <h3>Completed</h3>
+            <ul id="completedtasks" class="tasklist-cards droppable-cards"></ul>
+          </div>
+        </div>
         
-        <ul id="taskList"></ul>
+     
         
           
     </div>

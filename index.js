@@ -8,10 +8,12 @@ const taskList = document.getElementById("taskList");
 const tagFilter = document.getElementById("tagFilter");
 const statusFilter = document.getElementById("statusFilter");
 
+
 let tasks = new Map();
 let uniqueTags = new Set();
 
 window.addEventListener("DOMContentLoaded", () => {
+
   loadFromStorage();
   renderTask();
   updateTagFilter();
@@ -29,7 +31,7 @@ taskForm.addEventListener("submit", async (e) => {
   }
 
   const id = taskForm.dataset.editingId || Date.now().toString();
-  const existing = tasks.get(id);
+  
   const task = {
     id,
     title,
@@ -66,9 +68,12 @@ function loadFromStorage() {
 }
 
 function renderTask() {
-  taskList.innerHTML = "";
+document.getElementById("alltasks").innerHTML=""
+document.getElementById("pendingtasks").innerHTML=""
+document.getElementById("completedtasks").innerHTML=""
+
   const selectedTag = tagFilter.value;
-  const selectedStatus = statusFilter.value;
+  const selectedStatus = statusFilter?statusFilter.value:""
   let completed =0;
   let pending=0;
   
@@ -84,7 +89,7 @@ function renderTask() {
   });
 
   if (filteredTasks.length === 0) {
-    taskList.innerHTML = "<p>No tasks found for selected filter.</p>";
+    
     document.getElementById("completedCount").textContent = 0;
     document.getElementById("pendingCount").textContent = 0;
     return;
@@ -94,6 +99,8 @@ function renderTask() {
   filteredTasks.forEach(task => {
     const li = document.createElement("li");
     li.className="task-card"
+    li.draggable=true;
+    li.dataset.id=task.id
     li.innerHTML = `
       <strong>${task.title}</strong><br>
       <span>${task.desc}</span><br>
@@ -105,16 +112,60 @@ function renderTask() {
       <button onclick="editTask('${task.id}')">Edit</button>
       <button onclick="deleteTask('${task.id}')">Delete</button>
     `;
-   
+   li.addEventListener("dragstart",e=>{
+    e.dataTransfer.setData("text/plain",task.id)
+   })
+
+   document.getElementById("alltasks").appendChild(li)
+   if(task.status==="pending"){
+    document.getElementById("pendingtasks").appendChild(li.cloneNode(true))
+
+   }
+   if(task.status==="completed"){
+    document.getElementById("completedtasks").appendChild(li.cloneNode(true))
+   }
       
-    taskList.appendChild(li);
+
 
  
   });
   document.getElementById("completedCount").textContent=completed;
   document.getElementById("pendingCount").textContent=pending;
+  adddropevents()
 }
 
+function adddropevents(){
+  const dropzone =document.querySelectorAll(".droppable-cards");
+  dropzone.forEach(zone=>{
+    zone.addEventListener("dragover",e=>{
+      e.preventDefault()
+      zone.classList.add("drag-over")
+    })
+    zone.addEventListener("dragleave",e=>{
+      e.preventDefault()
+      zone.classList.remove("drag-over")
+    })
+    zone.addEventListener("drop",async e=>{
+      e.preventDefault()
+      zone.classList.remove("drag-over")
+
+      const taskId=e.dataTransfer.getData("task/plain")
+      const task =tasks.get(taskId)
+      if(!task){
+        return
+      }
+      if(zone.id==="pendingtasks"){
+        task.status="pending";
+      }else if(zone.id==="completedtasks"){
+        task.status="completed"
+      }
+      tasks.set(taskId,task)
+      await saveToStorage()
+      renderTask()
+    })
+    
+  })
+}
 function editTask(id) {
   const task = tasks.get(id);
   titleInput.value = task.title;
@@ -151,11 +202,15 @@ function updateTagFilter() {
   });
 }
 
-tagFilter.addEventListener("change", renderTask);
-statusFilter.addEventListener("change", renderTask);
+if (tagFilter) tagFilter.addEventListener("change", renderTask);
+if (statusFilter) statusFilter.addEventListener("change", renderTask);
 
 console.log(tasks)
 console.log(localStorage.getItem("tasks"))
+console.log(tagFilter);
 
 
 
+
+console.log(tasks);
+console.log(localStorage.getItem("tasks"));
